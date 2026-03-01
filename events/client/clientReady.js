@@ -17,11 +17,9 @@ async function getServerCount(client) {
 function buildStatuses(serverCount, apiLatency) {
   return [
     { name: 'Version 2.0', type: ActivityType.Playing },
-    { name: 'for new reminders', type: ActivityType.Watching },
     { name: 'Errors and dev rage', type: ActivityType.Listening },
-    { name: `to ${serverCount} servers`, type: ActivityType.Streaming, url: 'https://www.twitch.tv/phillsphanbh3' },
+    { name: `to PGC`, type: ActivityType.Streaming, url: 'https://www.twitch.tv/phillsphanbh3' },
     { name: `latency: API Latency: ${apiLatency}ms`, type: ActivityType.Streaming, url: 'https://www.twitch.tv/phillsphanbh3' },
-    { name: 'vote for me!', type: ActivityType.Streaming, url: 'https://www.twitch.tv/phillsphanbh3'},
   ];
 }
 

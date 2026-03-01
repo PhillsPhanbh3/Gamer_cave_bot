@@ -9,4 +9,8 @@ module.exports = {
     kicked_emote: '<:kicked:1475207945087095010>',
     VIP_emote: '<:VIP:1475208976328032296>',
     Premium_emote: '<:Premium:1475208976965566535>',
+    Online_emote: '<:Online:1444795417182343318>',
+    Idle_emote: '<:IDLE:1444795400862306304>',
+    DND_emote: '<:DND:1444795386773373149>',
+    Offline_emote: '<:Offline:1444795368565899274>'
 }
