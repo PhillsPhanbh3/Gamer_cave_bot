@@ -1,0 +1,28 @@
+{
+  "name": "gamer_cave_bot",
+  "version": "2.0.0",
+  "description": "The Gamer Cave Discord Bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PhillsPhanbh3/Gamer-Cave-Bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PhillsPhanbh3/Gamer-Cave-Bot/issues"
+  },
+  "homepage": "https://github.com/PhillsPhanbh3/Gamer-Cave-Bot#readme",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "discord.js": "^14.25.1",
+    "dotenv": "^17.2.3",
+    "mongoose": "^9.1.5",
+    "ms": "^2.1.3",
+    "winston": "^3.19.0"
+  }
+}
