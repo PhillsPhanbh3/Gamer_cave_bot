@@ -41,24 +41,27 @@ module.exports = {
             saveMessageData(data);
 
             if (removed.length > 0) {
-                logger.log(`[Staff Embed] Removed old messageId for guild ${guildId} (force update).`);
+                logger.info(`[Staff Embed] Removed old messageId for guild ${guildId} (force update).`);
             } else {
-                logger.log(`[Staff Embed] No previous messageId found for guild ${guildId} (force update).`);
+                logger.info(`[Staff Embed] No previous messageId found for guild ${guildId} (force update).`);
             }
 
             await updateStaffEmbed(interaction.client, true); // forced = true
-            logger.log(`[Staff Embed] Staff embed sent/updated for guild ${guildId} via force update.`);
+            logger.info(`[Staff Embed] Staff embed sent/updated for guild ${guildId} via force update.`);
 
             return interaction.reply({
                 content: '✅ Staff embed reset and updated successfully!',
                 flags: 64
             });
         } catch (error) {
-            logger.error('Error in force-update-staff-embed command:', error);
-            LogError(error, client, 'Force Update Staff Embed');
+            // Winston-safe: message first, metadata second
+            logger.error('[Staff Embed] Error in force-update-staff-embed command', { error });
+
+            // Pass the ACTUAL client (not interaction)
+            await LogError(error, interaction.client, 'commands/slash/private/updatestaff.js');
 
             return interaction.reply({
-                content: '❌ Failed to reset and update staff embed.',
+                content: '❌ An error occurred while updating the staff embed. Please check the logs for details.',
                 flags: 64
             });
         }
