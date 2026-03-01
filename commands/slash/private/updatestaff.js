@@ -35,7 +35,6 @@ module.exports = {
             const guildId = interaction.guild.id;
             let data = loadMessageData();
 
-            // Remove old record to force a new embed
             const removed = data.filter(r => r.guildId === guildId);
             data = data.filter(r => r.guildId !== guildId);
             saveMessageData(data);
@@ -46,7 +45,7 @@ module.exports = {
                 logger.info(`[Staff Embed] No previous messageId found for guild ${guildId} (force update).`);
             }
 
-            await updateStaffEmbed(interaction.client, true); // forced = true
+            await updateStaffEmbed(interaction.client, true);
             logger.info(`[Staff Embed] Staff embed sent/updated for guild ${guildId} via force update.`);
 
             return interaction.reply({
@@ -54,10 +53,7 @@ module.exports = {
                 flags: 64
             });
         } catch (error) {
-            // Winston-safe: message first, metadata second
             logger.error('[Staff Embed] Error in force-update-staff-embed command', { error });
-
-            // Pass the ACTUAL client (not interaction)
             await LogError(error, interaction.client, 'commands/slash/private/updatestaff.js');
 
             return interaction.reply({

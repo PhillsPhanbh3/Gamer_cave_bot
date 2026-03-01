@@ -1,5 +1,5 @@
 require("dotenv/config");
-const { Client, GatewayIntentBits, Collection, Options, Events, PermissionsBitField, EmbedBuilder } = require("discord.js");
+const { Client, GatewayIntentBits, Collection, Options, Events, PermissionsBitField, EmbedBuilder, Partials } = require("discord.js");
 const logger = require("./utils/logger");
 const loadEvents = require("./handlers/eventHandler");
 const loadComponents = require("./handlers/componentHandler");
@@ -7,13 +7,35 @@ const config = require("./config/config");
 const checkPermissions = require("./utils/checkPermissions");
 const { connectToMongo } = require("./utils/mongo");
 const { LogError } = require("./utils/LogError");
+
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildPresences, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages],
-  allowedMentions: { parse: ["users", "roles"], repliedUser: false }, //* If you need @everyone ping (not suggested) you can edit allowedMentions in .send object on TextChannel
-  makeCache: Options.cacheWithLimits({ PresenceManager: 0, ReactionManager: 0, ReactionUserManager: 0 }),
+  // Fixes:
+  // - remove duplicate GuildMessages
+  // - add Partials.Channel so DM channels can be received reliably
+  // - DO NOT zero-out PresenceManager cache (that makes presences effectively unusable)
+  // - keep GuildPresences + GuildMembers so staff presence works
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.GuildPresences,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.DirectMessages,
+  ],
+  partials: [Partials.Channel], // needed for DMs
+  allowedMentions: { parse: ["users", "roles"], repliedUser: false },
+
+  // IMPORTANT: do not set PresenceManager: 0 if you want presence-based "online/idle/dnd"
+  makeCache: Options.cacheWithLimits({
+    ReactionManager: 0,
+    ReactionUserManager: 0,
+    // PresenceManager removed (use default caching)
+  }),
 });
+
 const { error_emote, warning_emote, success_emote } = require("./utils/emotes");
 const { supportinvite } = require("./utils/support-invite");
+
 client.config = config;
 client.logger = logger;
 client.events = new Map();
@@ -24,15 +46,12 @@ client.helpers = { checkPermissions };
 module.exports = client;
 
 async function InteractionHandler(interaction, type) {
-  // Resolve the collection where this component/command should live
   const id = interaction.customId ?? interaction.commandName;
   let collection = null;
 
-  // Directly use client[type] if it's a Collection
   if (client[type] && typeof client[type].get === "function") {
     collection = client[type];
   } else {
-    // Fallback mappings for common types
     if (type === "commands") collection = client.commands?.slash;
     else if (type === "buttons") collection = client.components?.buttons;
     else if (type === "selectMenus") collection = client.components?.selectMenus;
@@ -42,7 +61,6 @@ async function InteractionHandler(interaction, type) {
   const component = collection?.get?.(id);
   if (!component) return;
 
-  // Developer-only and blacklist pre-checks for "commands" type
   if (type === "commands") {
     try {
       if (component.devCommand) {
@@ -65,20 +83,20 @@ async function InteractionHandler(interaction, type) {
             });
           }
         } catch (err) {
-          logger.error("Error checking blacklist:", err);
+          logger.error("Error checking blacklist:", { err });
         }
       }
     } catch (error) {
-      logger.error("Error checking dev/blacklist preconditions:", error);
+      logger.error("Error checking dev/blacklist preconditions:", { error });
     }
   }
 
   try {
-    // Safer, robust logging that won't throw if values are missing.
     const userTag = interaction.user?.tag ?? interaction.user?.username ?? interaction.user?.id ?? "Unknown User";
     const location = interaction.guild ? interaction.guild.name : "DMs";
     const triggerId = id ?? "unknown-id";
     const triggerType = type ?? "unknown-type";
+
     if (client.logger && typeof client.logger.info === "function") {
       client.logger.info(`[INTERACTION] ${userTag} in ${location} triggered ${triggerType} ${triggerId}`, {
         event: "interaction",
@@ -91,19 +109,16 @@ async function InteractionHandler(interaction, type) {
       logger.info(`[INTERACTION] ${userTag} in ${location} triggered ${triggerType} ${triggerId}`);
     }
 
-    // Owner-only check (hard-coded id from your snippet)
     if (component.owner) {
       if (interaction.user.id !== "1163939796767473698")
         return await interaction.reply({ content: `${warning_emote} Only bot owners can use this command!`, flags: 64 });
     }
 
-    // Execute the command/component
     await component.execute(interaction, client);
   } catch (error) {
-    // Log locally
-    logger.error(error);
+    // Winston-safe usage
+    logger.error("Error executing interaction", { error });
 
-    // Try to notify user (safely). Ignore known Discord races (10062, 40060).
     try {
       await interaction.deferReply({ flags: 64 }).catch(() => {});
       await interaction
@@ -120,20 +135,22 @@ async function InteractionHandler(interaction, type) {
         logger.debug?.("Ignored expected Discord API error while replying to interaction error", { code, replyErr });
         const APIErrorAlert = new EmbedBuilder()
           .setTitle("⚠️ Alert: Interaction Error Notification Failed")
-          .setDescription(`${warning_emote} An error occurred while trying to notify a user about an interaction error, but it was an expected Discord API error (code ${code}). This likely means the user deleted their message or left the channel before we could reply.\n\nOriginal Interaction: ${type} ${id}\nUser: ${interaction.user?.tag ?? interaction.user?.id}\nGuild: ${interaction.guild?.name ?? "DMs"}`)
+          .setDescription(
+            `${warning_emote} An error occurred while trying to notify a user about an interaction error, but it was an expected Discord API error (code ${code}). This likely means the user deleted their message or left the channel before we could reply.\n\nOriginal Interaction: ${type} ${id}\nUser: ${interaction.user?.tag ?? interaction.user?.id}\nGuild: ${interaction.guild?.name ?? "DMs"}`
+          )
           .setColor("Yellow")
           .setTimestamp();
         await interaction.reply({ embeds: [APIErrorAlert], flags: 64 });
         logger.warn(APIErrorAlert.data.description);
       } else {
-        logger.error("Failed to notify user about command error:", replyErr);
+        logger.error("Failed to notify user about command error", { replyErr });
       }
     }
 
     try {
       LogError(error, client, `${type} ${id}`);
     } catch (e) {
-      logger.error("LogError failed while reporting execution error", e);
+      logger.error("LogError failed while reporting execution error", { e });
     }
   }
 }
@@ -150,10 +167,8 @@ client.helpers.InteractionHandler = InteractionHandler;
     }
     await client.login(token);
     logger.info(`Logged in as ${client.user?.tag ?? "unknown user"}, please wait until terminal says Gamer Cave Bot is ready.`);
-
-    try { } catch (_) {}
   } catch (error) {
-    logger.error("An error occurred during startup/login", error);
+    logger.error("An error occurred during startup/login", { error });
   }
 })();
 
@@ -173,28 +188,29 @@ process.on("unhandledRejection", (reason, promise) => {
   try {
     LogError(reason, client, "unhandledRejection");
   } catch (e) {
-    logger.warn("LogError failed while reporting unhandledRejection", e);
+    logger.warn("LogError failed while reporting unhandledRejection", { e });
   }
 });
 
 process.on("uncaughtException", (error) => {
   if (error && error.code === "ENOMEM") {
-    logger.error("Out of memory detected.", error);
+    logger.error("Out of memory detected.", { error });
   } else {
-    logger.error("Uncaught Exception", error);
-  } try {
+    logger.error("Uncaught Exception", { error });
+  }
+  try {
     LogError(error, client, "uncaughtException");
   } catch (e) {
-    logger.warn("LogError failed while reporting uncaughtException", e);
+    logger.warn("LogError failed while reporting uncaughtException", { e });
   }
 });
 
 process.on("uncaughtExceptionMonitor", (error) => {
-  logger.warn("Uncaught Exception Monitor", error);
+  logger.warn("Uncaught Exception Monitor", { error });
 });
 
 process.on("warning", (warning) => {
-  logger.warn("Node.js Warning", warning);
+  logger.warn("Node.js Warning", { warning });
 });
 
 client.on(Events.GuildCreate, async (guild) => {
