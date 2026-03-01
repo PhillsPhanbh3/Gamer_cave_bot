@@ -8,7 +8,7 @@ const checkPermissions = require("./utils/checkPermissions");
 const { connectToMongo } = require("./utils/mongo");
 const { LogError } = require("./utils/LogError");
 const client = new Client({
-  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent],
+  intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildPresences, GatewayIntentBits.GuildMessages, GatewayIntentBits.DirectMessages],
   allowedMentions: { parse: ["users", "roles"], repliedUser: false }, //* If you need @everyone ping (not suggested) you can edit allowedMentions in .send object on TextChannel
   makeCache: Options.cacheWithLimits({ PresenceManager: 0, ReactionManager: 0, ReactionUserManager: 0 }),
 });
