@@ -18,10 +18,9 @@
   },
   "homepage": "https://github.com/PhillsPhanbh3/Gamer-Cave-Bot#readme",
   "dependencies": {
-    "@google/generative-ai": "^0.24.1",
     "discord.js": "^14.25.1",
-    "dotenv": "^17.2.3",
-    "mongoose": "^9.1.5",
+    "dotenv": "^17.3.1",
+    "mongoose": "^9.2.3",
     "ms": "^2.1.3",
     "winston": "^3.19.0"
   }
