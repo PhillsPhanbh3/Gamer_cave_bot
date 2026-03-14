@@ -2,13 +2,17 @@
 
 ## Setup
 
-1. Create a `.env` file in the root directory:
+1. Install Node.js, Visual Studio Code, and download the full zip file of the Gamer Cave bot
+
+2. Install the following packages using npm install discord.js dotenv mongoose ms winston
+
+3. Create a `.env` file in the root directory:
    ```yml
    DISCORD_TOKEN=
    APP_ID=
    MONGO_URL=
    ```
-2. go into your config file, make a config.js file then put in the following
+4. go into your config file, make a config.js file then put in the following
    ```module.exports = {
    prefix: "example: gcb.", - remove the example: j. and set your own custom prefix
    developerGuildId: [""], - enable discord developer mode and right click the server you want, and select copy server ID
@@ -17,7 +21,7 @@
    botowner: [""], - bot owner being your user id or the person that owns the bot on discord developer portal
    };
    ```
-3. Replace placeholders with actual values in both your .env file and config.js file.
+5. Replace placeholders with actual values in both your .env file and config.js file.
 
 ### Commands (Slash, Prefix, Context)
 
