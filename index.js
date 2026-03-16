@@ -166,7 +166,7 @@ client.helpers.InteractionHandler = InteractionHandler;
       process.exit(1);
     }
     await client.login(token);
-    logger.info(`Logged in as ${client.user?.tag ?? "unknown user"}, please wait until terminal says Gamer Cave Bot is ready.`);
+    logger.info(`[Startup] Logged in as ${client.user?.tag ?? "unknown user"}, please wait until terminal says Gamer Cave Bot is ready.`);
   } catch (error) {
     logger.error("An error occurred during startup/login", { error });
   }
