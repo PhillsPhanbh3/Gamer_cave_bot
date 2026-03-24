@@ -212,15 +212,3 @@ process.on("uncaughtExceptionMonitor", (error) => {
 process.on("warning", (warning) => {
   logger.warn("Node.js Warning", { warning });
 });
-
-client.on(Events.GuildCreate, async (guild) => {
-  try {
-    if (typeof blacklistserver !== "undefined" && blacklistserver) {
-      const data = await blacklistserver.findOne({ Guild: guild.id });
-      if (!data) return;
-      await guild.leave();
-    }
-  } catch (err) {
-    logger.error("Error handling GuildCreate blacklist check", { error: err, guildId: guild.id });
-  }
-});
