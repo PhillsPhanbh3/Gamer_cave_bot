@@ -2,7 +2,6 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { LogError } = require('../../../../utils/LogError');
 const { logger } = require('../../../../utils/logger');
-const { supportinvite } = require('../../../../utils/support-invite');
 
 const memes = [
     "I don't always test my code, but when I do, I do it in production.",
@@ -40,7 +39,7 @@ module.exports = {
         } catch (error) {
             LogError(error, client, 'beta-meme', interaction);
             logger.error(error);
-            await interaction.reply({ content: `An error occurred while trying to fetch a meme. Please join our support server for help: ${supportinvite}`, flags: 64 });
+            await interaction.reply({ content: `An error occurred while trying to fetch a meme. The developers have been notified.`, flags: 64 });
         }
     }
 };

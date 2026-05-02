@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { Logger } = require('../../../../utils/logger');
 const { LogError } = require('../../../../utils/LogError');
-const { supportinvite } = require('../../../../utils/support-invite');
 
 const numberEmojis = ['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣','6️⃣','7️⃣','8️⃣','9️⃣','🔟'];
 
@@ -105,11 +104,11 @@ module.exports = {
       LogError(error, interaction, 'poll');
       // Ensure we reply if the interaction wasn't acknowledged yet
       if (!interaction.replied && !interaction.deferred) {
-        await interaction.reply({ content: `There was an error while executing this command. Please join our support server for help: ${supportinvite}`, flags: 64 });
+        await interaction.reply({ content: `There was an error while executing this command. The developers have been notified.`, flags: 64 });
       } else {
         // If we already replied, optionally follow up (not necessary)
         try {
-          await interaction.followUp({ content: `There was an error while executing this command. Please join our support server for help: ${supportinvite}`, flags: 64 });
+          await interaction.followUp({ content: `There was an error while executing this command. The developers have been notified.`, flags: 64 });
         } catch {}
       }
     }

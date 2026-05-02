@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { LogError } = require('../../../../../utils/LogError');
 const { logger } = require('../../../../../utils/logger');
-const { supportinvite } = require('../../../../../utils/support-invite');
 const { error_emote, warning_emote, success_emote } = require('../../../../../utils/emotes');
 
 module.exports = {
@@ -38,7 +37,7 @@ module.exports = {
             logger.error(error, client);
             LogError(error, interaction, 'role-add');
             return interaction.reply({
-                content: `${error_emote} An error occurred while adding the role to the user due to a possible API error or missing "Manage Roles" permission. Please join our support server for help: ${supportinvite}`,
+                content: `${error_emote} An error occurred while adding the role to the user due to a possible API error or missing "Manage Roles" permission. The developers have been notified.`,
                 flags: 64
             });
         }

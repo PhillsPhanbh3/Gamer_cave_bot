@@ -1,7 +1,6 @@
 const checkPermissions = require("../../utils/checkPermissions");
 const { LogError } = require("../../utils/LogError");
 const { logger } = require("../../utils/logger")
-const { supportinvite } = require("../../utils/support-invite");
 
 module.exports = {
   name: "interactionCreate",
@@ -65,9 +64,9 @@ module.exports = {
 
       try {
         if (interaction.replied || interaction.deferred) {
-          await interaction.followUp({ content: `There was an error while executing this command! Please report this to the support server ${supportinvite}`, flags: 64 });
+          await interaction.followUp({ content: `There was an error while executing this command! The developers have been notified.`, flags: 64 });
         } else {
-          await interaction.reply({ content: `There was an error while executing this command! Please report this to the support server ${supportinvite}`, flags: 64 });
+          await interaction.reply({ content: `There was an error while executing this command! The developers have been notified.`, flags: 64 });
         }
       } catch (err) {
         return;

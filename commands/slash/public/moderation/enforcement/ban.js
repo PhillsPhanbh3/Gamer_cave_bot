@@ -2,7 +2,6 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { LogError } = require('../../../../../utils/LogError');
 const { logger } = require('../../../../../utils/logger');
-const { supportinvite } = require('../../../../../utils/support-invite');
 const { error_emote, warning_emote, success_emote, banned_emote } = require('../../../../../utils/emotes');
 
 module.exports = {

@@ -2,7 +2,6 @@ const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("disc
 const { logger } = require("../../../../../utils/logger");
 const { LogError } = require("../../../../../utils/LogError");
 const { error_emote, success_emote } = require("../../../../../utils/emotes");
-const { supportinvite } = require("../../../../../utils/support-invite");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -42,7 +41,7 @@ module.exports = {
             // You can send this embed to a log channel if needed
         } catch (err) {
             if (err && err.code === 10062) return;
-            await interaction.reply({ content: `${error_emote} An error occurred while trying to purge messages. Please ensure I have the necessary permissions and try again. If the issue persists, contact support: ${supportinvite}`, flags: 64 });
+            await interaction.reply({ content: `${error_emote} An error occurred while trying to purge messages. Please ensure I have the necessary permissions and try again.`, flags: 64 });
             logger.error(`[Stable Purge] Error executing command for ${interaction.user.tag}: ${err?.message ?? err}`, err);
             LogError(err, interaction, 'commands/slash/public/moderation/enforcement/purge.js');
         }

@@ -3,7 +3,6 @@ const ms = require('ms');
 const TempbanSchema = require('../../../../../schema/tempban');
 const { logger } = require('../../../../../utils/logger');
 const { LogError } = require('../../../../../utils/LogError');
-const { supportinvite } = require('../../../../../utils/support-invite');
 const { error_emote, warning_emote, success_emote, banned_emote } = require('../../../../../utils/emotes');
 
 module.exports = {
@@ -69,7 +68,7 @@ module.exports = {
             const errorEmbed = new EmbedBuilder()
                 .setColor("Red")
                 .setTitle(`${error_emote} Error Temporarily Banning User`)
-                .setDescription(`${error_emote} An error occurred while temporarily banning the user. Please ensure I have the "Ban Members" permission and try again.\n\nJoin the support server: ${supportinvite}`);
+                .setDescription(`${error_emote} An error occurred while temporarily banning the user. The developers have been notified.`);
             return await interaction.reply({ embeds: [errorEmbed], ephemeral: true });
         } else {
             const successEmbed = new EmbedBuilder()

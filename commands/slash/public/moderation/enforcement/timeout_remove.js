@@ -85,7 +85,7 @@ module.exports = {
         } catch (error) {
             logger.error(error, interaction.client);
             LogError(error, interaction, 'timeout_remove');
-            await interaction.reply({content: `${error_emote} Gamer Cave Bot had an issue removing a timeout from a member due to a Discord API error or missing "Moderate Members" permission.`, flags: 64});
+            await interaction.reply({content: `${error_emote} Gamer Cave Bot had an issue removing a timeout from a member due to a Discord API error or missing "Moderate Members" permission. The developers have been notified.`, flags: 64});
         }
     }
 };

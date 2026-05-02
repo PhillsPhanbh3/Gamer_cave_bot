@@ -1,6 +1,5 @@
 const { LogError } = require('../../utils/LogError');
 const { logger } = require('../../utils/logger');
-const { supportinvite } = require('../../utils/support-invite');
 
 module.exports = {
 	customId: 'poke',
@@ -18,12 +17,12 @@ module.exports = {
 			try {
 				if (interaction.replied || interaction.deferred) {
 					await interaction.followUp({
-						content: `An error occurred handling the button. The error has been logged. Please report this to the support server if you want to ${supportinvite}`,
+						content: `An error occurred handling the button. The error has been logged.`,
 						flags: 64,
 					});
 				} else {
 					await interaction.reply({
-						content: `An error occurred handling the button. The error has been logged. Please report this to the support server if you want to ${supportinvite}`,
+						content: `An error occurred handling the button. The error has been logged.`,
 						flags: 64,
 					});
 				}

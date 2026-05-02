@@ -2,7 +2,6 @@ const checkPermissions = require("../../utils/checkPermissions");
 const { ComponentType } = require("discord.js");
 const { LogError } = require("../../utils/LogError");
 const { logger } = require("../../utils/logger");
-const { supportinvite } = require("../../utils/support-invite");
 
 module.exports = {
   name: "interactionCreate",
@@ -38,8 +37,8 @@ module.exports = {
       await component.execute(interaction, client);
     } catch (error) {
       logger.error(`[Interactions] Error executing component ${interaction.customId}: ${error.message}`, error, LogError);
-      if (interaction.replied || interaction.deferred) interaction.followUp({ content: `There was an error while executing this component! Please report this to the support server ${supportinvite}`, flags: 64 });
-      else interaction.reply({ content: `There was an error while executing this component! Please report this to the support server ${supportinvite}`, flags: 64 });
+      if (interaction.replied || interaction.deferred) interaction.followUp({ content: `There was an error while executing this component! The developers have been notified.`, flags: 64 });
+      else interaction.reply({ content: `There was an error while executing this component! The developers have been notified.`, flags: 64 });
     }
   },
 };

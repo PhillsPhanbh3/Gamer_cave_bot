@@ -2,7 +2,6 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { LogError } = require('../../../../../utils/LogError');
 const { logger } = require('../../../../../utils/logger');
-const { supportinvite } = require('../../../../../utils/support-invite');
 const { error_emote, warning_emote, success_emote } = require('../../../../../utils/emotes');
 
 module.exports = {
@@ -42,7 +41,7 @@ module.exports = {
     } catch (error) {
       logger.error(error, client);
       LogError(error, interaction, 'ban_remove');
-      return interaction.reply({ content: `${error_emote} I couldn't fetch bans. Please join our support server for help: ${supportinvite}`, flags: 64 });
+      return interaction.reply({ content: `${error_emote} I couldn't fetch bans. The developers have been notified.`, flags: 64 });
     }
 
     // Try unbanning
@@ -52,7 +51,7 @@ module.exports = {
       logger.error(error, client);
       LogError(error, interaction, 'ban_remove');
       return interaction.reply({
-        content: `${error_emote} An error occurred while unbanning the user, this could be due to me not having the "Ban Members" permission (which unbanning requires) or a Discord API error. Please join our support server for help: ${supportinvite}`,
+        content: `${error_emote} An error occurred while unbanning the user, this could be due to me not having the "Ban Members" permission (which unbanning requires) or a Discord API error. The developers have been notified.`,
         flags: 64
       });
     }

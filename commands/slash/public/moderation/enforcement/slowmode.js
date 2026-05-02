@@ -2,7 +2,6 @@ const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require("disc
 const { logger } = require('../../../../../utils/logger');
 const { LogError } = require("../../../../../utils/LogError");
 const { error_emote, warning_emote, success_emote } = require("../../../../../utils/emotes");
-const { supportinvite } = require("../../../../../utils/support-invite");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -45,9 +44,9 @@ module.exports = {
             LogError(error, interaction.client, 'commands/slash/public/moderation/enforcement/slowmode.js');
             try {
                 if (interaction.deferred || interaction.replied) {
-                    await interaction.editReply({ content: `${error_emote} An error occurred while executing the command. If you need assistance, please join our support server ${supportinvite}` });
+                    await interaction.editReply({ content: `${error_emote} An error occurred while executing the command. The developers have been notified.`, flags: 64 });
                 } else {
-                    await interaction.reply({ content: `${error_emote} An error occurred while executing the command. If you need assistance, please join our support server ${supportinvite}`, flags: 64 });
+                    await interaction.reply({ content: `${error_emote} An error occurred while executing the command. The developers have been notified.`, flags: 64 });
                 }
             } catch {
                 // Ignore secondary errors

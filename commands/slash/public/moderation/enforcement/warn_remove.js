@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { LogError } = require('../../../../../utils/LogError');
 const { logger } = require('../../../../../utils/logger');
-const { supportinvite } = require('../../../../../utils/support-invite');
 const { error_emote, warning_emote, success_emote } = require('../../../../../utils/emotes');
 
 module.exports = {
@@ -88,7 +87,7 @@ module.exports = {
             LogError(err, interaction, 'Beta-warn-remove');
 
             await safeReply({
-                content: `${error_emote} An unexpected error occurred while processing this command. If this keeps happening, please reach out via our support: ${supportinvite}`,
+                content: `${error_emote} An unexpected error occurred while processing this command. The developers have been notified.`,
                 flags: 64,
             });
         }

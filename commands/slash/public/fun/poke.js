@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { logger } = require('../../../../utils/logger');
 const { LogError } = require('../../../../utils/LogError');
-const { supportinvite } = require('../../../../utils/support-invite');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -26,12 +25,12 @@ module.exports = {
 			try {
 				if (interaction.replied || interaction.deferred) {
 					await interaction.followUp({
-						content: `An unexpected error occurred while processing your request. The error has been logged. Please join our support server for help: ${supportinvite}`,
+						content: `An unexpected error occurred while processing your request. The error has been logged and the developers have been notified.`,
 						flags: 64,
 					});
 				} else {
 					await interaction.reply({
-						content: `An unexpected error occurred while processing your request. The error has been logged. Please join our support server for help: ${supportinvite}`,
+						content: `An unexpected error occurred while processing your request. The error has been logged and the developers have been notified.`,
 						flags: 64,
 					});
 				}
