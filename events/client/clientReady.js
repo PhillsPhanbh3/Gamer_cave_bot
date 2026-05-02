@@ -19,7 +19,7 @@ function buildStatuses(serverCount, apiLatency) {
     { name: 'Version 2.0', type: ActivityType.Playing },
     { name: 'Errors and dev rage', type: ActivityType.Listening },
     { name: `to PGC`, type: ActivityType.Streaming, url: 'https://www.twitch.tv/phillsphanbh3' },
-    { name: `latency: API Latency: ${apiLatency}ms`, type: ActivityType.Streaming, url: 'https://www.twitch.tv/phillsphanbh3' },
+    { name: `API Latency: ${apiLatency}ms`, type: ActivityType.Streaming, url: 'https://www.twitch.tv/phillsphanbh3' },
   ];
 }
 
