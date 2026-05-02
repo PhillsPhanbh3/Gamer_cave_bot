@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, ChannelType } = require("discord.js");
-const { supportinvite } = require("../../../../../utils/support-invite");
 const { logger } = require("../../../../../utils/logger");
 const { LogError } = require("../../../../../utils/LogError");
 const { error_emote, warning_emote, success_emote } = require("../../../../../utils/emotes");
@@ -106,9 +105,9 @@ module.exports = {
         } catch (err) {
             try {
                 if (interaction.deferred || interaction.replied) {
-                    await interaction.editReply(`${error_emote} An error occurred while executing the command. If you need assistance, please join our support server ${supportinvite}`);
+                    await interaction.editReply(`${error_emote} An error occurred while executing the command. The devs are looking into it.`);
                 } else {
-                    await interaction.reply({ content: `${error_emote} An error occurred while executing the command. If you need assistance, please join our support server ${supportinvite}`, flags: 64 });
+                    await interaction.reply({ content: `${error_emote} An error occurred while executing the command. The devs are looking into it.`, flags: 64 });
                 }
             } catch {}
 

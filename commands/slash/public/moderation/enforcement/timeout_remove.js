@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require('discord.js');
 const { LogError } = require('../../../../../utils/LogError');
 const { logger } = require('../../../../../utils/logger');
-const { supportinvite } = require('../../../../../utils/support-invite');
 const { error_emote, warning_emote, success_emote } = require('../../../../../utils/emotes');
 
 module.exports = {
@@ -86,7 +85,7 @@ module.exports = {
         } catch (error) {
             logger.error(error, interaction.client);
             LogError(error, interaction, 'timeout_remove');
-            await interaction.reply({content: `${error_emote} Gamer Cave Bot had an issue removing a timeout from a member due to a Discord API error or missing "Moderate Members" permission. Please report this to the support server ${supportinvite}`, flags: 64});
+            await interaction.reply({content: `${error_emote} Gamer Cave Bot had an issue removing a timeout from a member due to a Discord API error or missing "Moderate Members" permission.`, flags: 64});
         }
     }
 };

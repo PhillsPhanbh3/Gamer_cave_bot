@@ -1,6 +1,5 @@
 const { LogError } = require("../../../utils/LogError");
 const { logger } = require("../../../utils/logger");
-const { supportinvite } = require("../../../utils/support-invite");
 
 module.exports = {
   name: "messageCreate",
@@ -22,7 +21,7 @@ module.exports = {
       command.execute(message, args, client);
     } catch (error) {
       logger.error(`Error executing command ${commandName}: ${error.message}`, error, LogError);
-      message.reply({ content: `There was an error while executing this command! Please report this to the support server ${supportinvite}`, flags: 64 });
+      message.reply({ content: `There was an error while executing this command!`, flags: 64 });
     }
   },
 };

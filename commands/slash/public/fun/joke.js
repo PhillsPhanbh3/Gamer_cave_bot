@@ -2,7 +2,6 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const { LogError } = require('../../../../utils/LogError');
 const { logger } = require('../../../../utils/logger');
-const { supportinvite } = require('../../../../utils/support-invite');
 
 const jokes = [
     "Why don't scientists trust atoms? Because they make up everything!",
@@ -48,7 +47,7 @@ module.exports = {
         } catch (error) {
             LogError(error, client, 'beta-joke', interaction);
             logger.error(error);
-            await interaction.reply({ content: `An error occurred while trying to fetch a joke. Please join our support server for help: ${supportinvite}`, flags: 64 });
+            await interaction.reply({ content: `An error occurred while trying to fetch a joke. The devs are looking into it.`, flags: 64 });
         }
     }
 }

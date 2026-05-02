@@ -34,7 +34,6 @@ const client = new Client({
 });
 
 const { error_emote, warning_emote, success_emote } = require("./utils/emotes");
-const { supportinvite } = require("./utils/support-invite");
 
 client.config = config;
 client.logger = logger;

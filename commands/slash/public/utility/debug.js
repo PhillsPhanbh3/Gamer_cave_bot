@@ -3,7 +3,6 @@ const process = require('process');
 const { lastUpdate } = require('../../../../utils/update-info');
 const { logger } = require('../../../../utils/logger');
 const { LogError } = require('../../../../utils/LogError');
-const { supportinvite } = require('../../../../utils/support-invite');
 const { error_emote } = require('../../../../utils/emotes');
 
 module.exports = {
@@ -43,11 +42,11 @@ module.exports = {
             if (err && err.code === 10062) return;
             try {
                 if (!interaction.replied && !interaction.deferred) {
-                    await interaction.reply({ content: `${error_emote} An error occurred while running the command. Please report this to the support server ${supportinvite}`, flags: 64 });
+                    await interaction.reply({ content: `An error occurred while running the command.`, flags: 64 });
                     logger.error(`[Stable Debug] Error executing command for ${interaction.user.tag}: ${err?.message ?? err}`, err);
                     LogError(err, interaction, 'commands/slash/public/utility/debug.js');
                 } else {
-                    await interaction.followUp({ content: `${error_emote} An error occurred while running the command. Please report this to the support server ${supportinvite}`, flags: 64 });
+                    await interaction.followUp({ content: `An error occurred while running the command.`, flags: 64 });
                     logger.error(`[Stable Debug] Error executing command for ${interaction.user.tag}: ${err?.message ?? err}`, err);
                     LogError(err, interaction, 'commands/slash/public/utility/debug.js');
                 }

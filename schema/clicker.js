@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const Standardclicker = new Schema(
+const GCBClicker = new Schema(
   {
     guildId: { type: String, required: true, unique: true },
     totalClicks: { type: Number, default: 0, required: true },
@@ -8,4 +8,4 @@ const Standardclicker = new Schema(
   { timestamps: true }
 );
 
-module.exports = model("Standardclicker", Standardclicker);
+module.exports = model("GCBClicker", GCBClicker);

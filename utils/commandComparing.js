@@ -21,13 +21,13 @@ function deepEqual(a, b) {
 
 function validateOptions(option) {
   const { name, type, description = "No description", required = false } = option;
-  if (!name || typeof name !== "string") throw new Error("Option must have a vaild 'name' string");
+  if (!name || typeof name !== "string") throw new Error("Option must have a valid 'name' string");
   if (!type) throw new Error(`Option '${name}' must have a valid 'type'`);
   return { name, type, description, required };
 }
 
 function formatCommand(cmd) {
-  if (!cmd.name || typeof cmd.name !== "string") throw new Error("Command must have a vaild 'name' string");
+  if (!cmd.name || typeof cmd.name !== "string") throw new Error("Command must have a valid 'name' string");
 
   const { name, description = "No description", options = [], defaultMemberPermissions = null, nsfw = false, contexts = DEFAULT_CONTEXTS, integrationTypes = DEFAULT_INTEGRATION, dmPermission = true } = cmd;
 
