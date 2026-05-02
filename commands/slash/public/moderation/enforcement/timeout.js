@@ -56,7 +56,7 @@ module.exports = {
             return await interaction.reply({ content: `${warning_emote} The user mentioned is no longer within the server.`, flags: 64 });
         }
 
-        if (!timeMember.kickable) {
+        if (!timeMember.moderatable) {
             return await interaction.reply({ content: `${warning_emote} I cannot timeout this user! That is because either their role has admin permissions or they are above me!`, flags: 64 });
         }
 

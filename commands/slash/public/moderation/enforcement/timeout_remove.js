@@ -38,7 +38,7 @@ module.exports = {
         }
 
         // Additional checks
-        if (!timeMember.kickable) {
+        if (!timeMember.moderatable) {
             return await interaction.reply({
                 content: `${warning_emote} I cannot remove the timeout from this user! Ensure I have sufficient permissions.`,
                 flags: 64
