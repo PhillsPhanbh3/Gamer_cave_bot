@@ -33,7 +33,7 @@ module.exports = {
         // Get user object (might be uncached)
         const banUser = await client.users.fetch(user.id).catch(() => null);
         if (!banUser) {
-            return interaction.reply({ content: `${warning_emote} Couldn't find the user to ban, please check user ID or mention. Please join our support server for help: ${supportinvite}`, flags: 64 });
+            return interaction.reply({ content: `${warning_emote} Couldn't find the user to ban, please check user ID or mention. The developers have been notified.`, flags: 64 });
         }
 
         // Try banning the user
@@ -42,7 +42,7 @@ module.exports = {
         } catch (err) {
             logger.error(err, client)
             LogError(err, interaction, 'ban');
-            return interaction.reply({ content: `${error_emote} An error occurred while banning the user, this could be due to me not having the "Ban Members" permission or a Discord API error. Please join our support server for help: ${supportinvite}`, flags: 64 });
+            return interaction.reply({ content: `${error_emote} An error occurred while banning the user, this could be due to me not having the "Ban Members" permission or a Discord API error. The developers have been notified.`, flags: 64 });
         }
 
         // Try to send DM first

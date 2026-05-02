@@ -4,15 +4,21 @@
     "prettier.printWidth": 1000,
     "explorer.compactFolders": false,
     "cSpell.words": [
+        "automod",
         "Blurple",
         "cooldown",
         "cooldowns",
         "impasta",
+        "kickable",
         "maxsize",
+        "mentionrole",
         "moderatable",
         "mult",
         "Phanbh",
         "Phills",
-        "Phillsphanbh"
+        "Phillsphanbh",
+        "slowmode",
+        "tempban",
+        "unban"
     ]
 }
