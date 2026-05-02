@@ -40,16 +40,17 @@ module.exports = {
             if (err && err.code === 10062) return;
             try {
                 if (!interaction.replied && !interaction.deferred) {
-                    await interaction.reply({ content: `An error occurred while running the command.`, flags: 64 });
+                    await interaction.reply({ content: `An error occurred while running the command. The developers have been notified.`, flags: 64 });
                     logger.error(`[Stable Debug] Error executing command for ${interaction.user.tag}: ${err?.message ?? err}`, err);
                     LogError(err, interaction, 'commands/slash/public/utility/debug.js');
                 } else {
-                    await interaction.followUp({ content: `An error occurred while running the command.`, flags: 64 });
+                    await interaction.followUp({ content: `An error occurred while running the command. The developers have been notified.`, flags: 64 });
                     logger.error(`[Stable Debug] Error executing command for ${interaction.user.tag}: ${err?.message ?? err}`, err);
                     LogError(err, interaction, 'commands/slash/public/utility/debug.js');
                 }
             } catch (Err) {
-                return;
+                logger.error(`[Stable Debug] Secondary error while handling an error for ${interaction.user.tag}: ${Err?.message ?? Err}`, Err);
+                // If we can't even send an error message, there's not much else we can do, so we just log it and move on.
             }
         }
     }
