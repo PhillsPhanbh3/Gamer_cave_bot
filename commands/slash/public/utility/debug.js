@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, version: discordJsVersion, PermissionsBitField } = require('discord.js');
 const process = require('process');
-const { lastUpdate } = require('../../../../utils/update-info');
 const { logger } = require('../../../../utils/logger');
 const { LogError } = require('../../../../utils/LogError');
 const { error_emote } = require('../../../../utils/emotes');
@@ -31,8 +30,7 @@ module.exports = {
                     { name: 'Memory (RSS)', value: `${rssMB} MB`, inline: true },
                     { name: 'Memory (Heap Used)', value: `${heapMB} MB`, inline: true },
                     { name: 'Discord.js Version', value: discordJsVersion, inline: true },
-                    { name: 'Shard ID', value: `${interaction.guild?.shardId ?? 'N/A'}`, inline: true },
-                    { name: 'Last Update', value: `${lastUpdate.date} at ${lastUpdate.time}\n${lastUpdate.description}`, inline: false }
+                    { name: 'Shard ID', value: `${interaction.guild?.shardId ?? 'N/A'}`, inline: true }
                 )
                 .setFooter({ text: 'If you experience lag, report this data to the support team.' })
                 .setTimestamp();
